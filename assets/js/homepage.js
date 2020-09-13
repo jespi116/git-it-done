@@ -16,12 +16,12 @@ var formSubmitHandler = function(event){
     }
 }
 
-var getUserRepos = function() {
-    var apiUrl = "https://api.github.com/users/" + user + "/repos";
+var getUserRepos = function(username) {
+    var apiUrl = "https://api.github.com/users/" + username + "/repos";
 
     fetch(apiUrl).then(function(response){
         response.json().then(function(data){
-            displayRepos(data, user);
+            displayRepos(data, username);
         })
     })
 };
@@ -33,8 +33,9 @@ var displayRepos = function(repos, searchTerm){
     for (var i = 0; i < repos.length; i++){
         var repoName = repos[i].owner.login + "/" + repos[i].name;
 
-        var repoEl = document.createElement("div");
+        var repoEl = document.createElement("a");
         repoEl.classList = "list-item flex-row justify-space-between align-center"
+        repoEl.setAttribute("href", "./single-repo.html?repo=" + repoName);
 
         var titleEl = document.createElement("span");
         titleEl.textContent = repoName;
@@ -57,6 +58,6 @@ var displayRepos = function(repos, searchTerm){
     }
 }
 
-user = "jespi116"
+
 
 userFormEl.addEventListener("submit", formSubmitHandler);
